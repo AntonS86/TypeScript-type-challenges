@@ -19,7 +19,12 @@
 /* _____________ Your Code Here _____________ */
 
 
-type TrimLeft<S extends string> = S extends `${infer Char}${infer Rest}` 
+type TrimLeft<S extends string> = S extends `${(' ' | '\t' | '\n')}${infer Rest}` 
+  ? TrimLeft<Rest>
+  : S;
+
+
+type TrimLeft1<S extends string> = S extends `${infer Char}${infer Rest}` 
   ? Char extends (' ' | '\n' | '\t') 
     ? TrimLeft<Rest> 
     : S
