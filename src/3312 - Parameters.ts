@@ -20,7 +20,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyParameters<T extends (...args: any[]) => any> = T extends (...params: infer M) => any ? M: [];
+type MyParameters<T extends (...args: any[]) => any> = T extends (...n: infer M) => any ? M : never;
+type MyParameters1<T> = T extends (...n: infer M) => unknown ? M : never;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
