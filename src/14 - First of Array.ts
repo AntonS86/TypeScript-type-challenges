@@ -22,7 +22,21 @@
 
 /* _____________ Your Code Here _____________ */
 
-type First<T extends any[]> = T extends [infer R, ...any] ? R : never;
+type First<T extends any[]> = T extends [] ? never : T[0];
+
+type First1<T extends unknown[]> = T['length'] extends 0 ? never : T[0];
+
+type First2<T extends unknown[]> = T extends never[] ? never : T[0];
+
+type First3<T extends unknown[]> = T extends [infer K, ...infer _] ? K : never;
+
+type First4<T extends unknown[]> = T[0] extends T[number] ? T[0] : never;
+
+type First5<T extends unknown[]> = '0' extends keyof T ? T[0] : never;
+
+type First6<T extends unknown[]> = T extends [infer K, ...any[]] ? K : never;
+
+type First7<T extends unknown[]> = T extends [infer K, ...any] ? K : never;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
