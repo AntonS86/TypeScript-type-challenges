@@ -26,6 +26,8 @@
 /* _____________ Your Code Here _____________ */
 
 type MyReturnType<T> = T extends (...args: any) => infer R ? R : unknown;
+type MyReturnType<T extends (...args: any[]) => any> = T extends (...args: any[]) => infer M ? M : never; 
+
 type m = MyReturnType<typeof fn>
 //   ^?
 
