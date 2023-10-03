@@ -20,8 +20,13 @@
 type MyEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends (<T>() => T extends Y ? 1 : 2) ? true : false
 
 type Includes<T extends readonly any[], U> = T extends [infer F, ...infer R] ? MyEqual<F, U> extends true ? true : Includes<R, U> : false;
-type m = Includes<['Kars', 'Esidisi', 'Wamuu', 'Santana'], 'Kars'>;
-//   ^?
+
+type Includes<T extends readonly any[], U> = 
+  T extends [infer F, ...infer L] 
+    ? Equal<F, U> extends true
+     ? true
+     : Includes<L, U>
+    : false;
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
