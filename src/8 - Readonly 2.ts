@@ -34,7 +34,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyReadonly<T, K extends keyof T = keyof T> = {
+type MyReadonly2<T, K extends keyof T = keyof T> = {
   [P in keyof T as P extends K ? never : P]: T[P];
 } & {
   readonly [P in K]: T[P];
@@ -46,10 +46,11 @@ type MyReadonly2<T, K extends keyof T = keyof T> = {
   readonly [P in K]: T[P];
 }
 
-type m = MyReadonly2<Todo1, 'title' | 'description'>;
-//   ^?
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & {
+  readonly [P in K]: T[P];
+}
 
-type l = MyReadonly2<Todo1>;
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & Readonly<Pick<T, K>>
 
 
 /* _____________ Test Cases _____________ */
