@@ -31,6 +31,18 @@ type MyAwaited1<T extends (Promise<any> | { then: (onfulfilled: (arg: any) => an
 
 type MyAwaited<T extends PromiseLike<any>> = T extends PromiseLike<infer M> ? M extends PromiseLike<any> ? MyAwaited<M> : M : never;
 
+type MyAwaited1<T extends {then(onfulfiled: any): any}> = T extends null | undefined ? T :
+T extends object & {then(onfulfilled: infer R): any} 
+  ? R extends (value: infer M) => unknown
+    ? M extends Promise<any> ? MyAwaited<M> : M
+    : never 
+  : never;
+
+// не рабочий в одном тесте
+type MyAwaited<T extends Promise<unknown>> = T extends Promise<infer U> ? U extends Promise<unknown> ? MyAwaited<U> : U : T;
+
+
+
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
