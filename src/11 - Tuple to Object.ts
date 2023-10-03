@@ -24,6 +24,14 @@ type TupleToObject<T extends readonly (string | number)[]> = {
   [P in T[number]]: P;
 }
 
+type TupleToObject1<T extends readonly PropertyKey[]> = {
+  [P in T[number]]: P;
+}
+
+type TupleToObject2<T extends readonly (keyof any)[]> = {
+  [P in T[number]]: P;
+}
+
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
@@ -34,7 +42,8 @@ const tupleMix = [1, '2', 3, '4'] as const
 type cases = [
   Expect<Equal<TupleToObject<typeof tuple>, { tesla: 'tesla'; 'model 3': 'model 3'; 'model X': 'model X'; 'model Y': 'model Y' }>>,
   Expect<Equal<TupleToObject<typeof tupleNumber>, { 1: 1; 2: 2; 3: 3; 4: 4 }>>,
-  Expect<Equal<TupleToObject<typeof tupleMix>, { 1: 1; '2': '2'; 3: 3; '4': '4' }>>,
+  Expect<Equal<TupleToObject<typeof tupleSymbol>, { [sym1]: typeof sym1; [sym2]: typeof sym2 }>>,
+  Expect<Equal<TupleToObject<typeof tupleMix>, { 1: 1; '2': '2'; 3: 3; '4': '4'; [sym1]: typeof sym1 }>>,
 ]
 
 // @ts-expect-error
