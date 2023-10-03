@@ -32,8 +32,17 @@
 /* _____________ Your Code Here _____________ */
 
 type MyPick<T, K extends keyof T> = {
-  [P in K]: T[P];
+  [Key in K]: T[Key];
 }
+
+type Nope1<T, K extends keyof T> = {
+  [P in Extract<keyof T, K>]: T[P];
+}
+
+type Nope2<T, K extends keyof T> = {
+  [P in keyof T as P extends K ? P : never]: T[P];
+}
+
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -43,6 +52,16 @@ type cases = [
   Expect<Equal<Expected2, MyPick<Todo, 'title' | 'completed'>>>,
   // @ts-expect-error
   MyPick<Todo, 'title' | 'completed' | 'invalid'>,
+
+  Expect<Equal<Expected1, Nope1<Todo, 'title'>>>,
+  Expect<Equal<Expected2, Nope1<Todo, 'title' | 'completed'>>>,
+  // @ts-expect-error
+  Nope1<Todo, 'title' | 'completed' | 'invalid'>,
+
+  Expect<Equal<Expected1, Nope2<Todo, 'title'>>>,
+  Expect<Equal<Expected2, Nope2<Todo, 'title' | 'completed'>>>,
+  // @ts-expect-error
+  Nope2<Todo, 'title' | 'completed' | 'invalid'>,
 ]
 
 interface Todo {
