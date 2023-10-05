@@ -40,6 +40,10 @@ type DeepReadonly<T> = {
   readonly [P in keyof T]: T[P] extends {} ? T[P] extends Function ? T[P] : DeepReadonly<T[P]> : T[P];
 }
 
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: keyof T[P] extends never ? T[P] : DeepReadonly<T[P]>; 
+}
+
 type m = DeepReadonly<X1>;
 //   ^?
 
